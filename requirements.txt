@@ -1,0 +1,6 @@
+transformers>=4.48
+accelerate
+datasets
+scikit-learn
+pandas
+pyarrow
