@@ -1,4 +1,4 @@
-# prompt-guard
+# Prompt-Guard
 
 A small, fast classifier that flags **prompt-injection and jailbreak attempts** before they reach an LLM.
 
@@ -22,7 +22,7 @@ user input ──► prompt-guard (~ms) ──► INJECTION ──► block / fl
 
 F1 for the injection class on the held-out test set (2,283 examples):
 
-| Test source | Examples | TF-IDF baseline | **prompt-guard** |
+| Test Source | Examples | TF-IDF Baseline | **Prompt-Guard** |
 |---|---|---|---|
 | [deepset/prompt-injections](https://huggingface.co/datasets/deepset/prompt-injections): real-world, EN + DE | 115 | 0.652 | **0.897** |
 | [jackhhao/jailbreak-classification](https://huggingface.co/datasets/jackhhao/jailbreak-classification): role-play jailbreaks | 258 | 0.950 | **0.974** |
@@ -33,7 +33,7 @@ Overall: precision 0.994, recall 0.979, accuracy 99.2%.
 
 **Read the deepset row first.** The synthetic set is easy, and even TF-IDF nearly solves it, so it inflates the overall score. Deepset holds short, realistic attacks in two languages. That is where keyword matching fails and the fine-tuned model earns its keep.
 
-## How it works
+## How It Works
 
 1. **Data** (`data.py`): merges the three datasets into one binary task (`0 = safe`, `1 = injection`), removes duplicates, and drops any test example that also appears in training, so there is no leakage.
 2. **Baseline** (`baseline.py`): TF-IDF (1–2 grams) + logistic regression. It sets the bar a neural model has to clear.
@@ -41,7 +41,7 @@ Overall: precision 0.994, recall 0.979, accuracy 99.2%.
 
 Training takes ~30 min on an RTX 4050 Laptop GPU (6 GB VRAM).
 
-## Quick start
+## Quick Start
 
 ```bash
 python -m venv .venv
@@ -54,7 +54,7 @@ python baseline.py   # TF-IDF baseline
 python train.py      # fine-tune ModernBERT -> model/
 ```
 
-Use the trained model:
+Use the Trained Model:
 
 ```python
 from transformers import pipeline
