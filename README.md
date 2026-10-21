@@ -1,4 +1,4 @@
-# Prompt-Guard
+# Prompt-Injection-Classifier
 
 A small, fast classifier that flags **prompt-injection and jailbreak attempts** before they reach an LLM.
 
@@ -13,7 +13,7 @@ LLM applications mix two kinds of text in one prompt: the developer's instructio
 This is **prompt injection**, ranked #1 in the [OWASP Top 10 for LLM Applications](https://genai.owasp.org/llm-top-10/). There is no complete fix, so real systems stack several defenses. A dedicated classifier is a cheap first layer: it screens every input before the expensive LLM call.
 
 ```
-user input ──► prompt-guard (~ms) ──► INJECTION ──► block / flag / log
+user input ──► classifier (~ms)  ──► INJECTION ──► block / flag / log
                      │
                      └──► SAFE ──► LLM ──► response
 ```
@@ -22,7 +22,7 @@ user input ──► prompt-guard (~ms) ──► INJECTION ──► block / fl
 
 F1 for the injection class on the held-out test set (2,283 examples):
 
-| Test Source | Examples | TF-IDF Baseline | **Prompt-Guard** |
+| Test Source | Examples | TF-IDF Baseline | **Fine-Tuned Model** |
 |---|---|---|---|
 | [deepset/prompt-injections](https://huggingface.co/datasets/deepset/prompt-injections): real-world, EN + DE | 115 | 0.652 | **0.897** |
 | [jackhhao/jailbreak-classification](https://huggingface.co/datasets/jackhhao/jailbreak-classification): role-play jailbreaks | 258 | 0.950 | **0.974** |
