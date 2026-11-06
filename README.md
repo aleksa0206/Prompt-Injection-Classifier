@@ -37,7 +37,7 @@ Overall: precision 0.994, recall 0.979, accuracy 99.2%.
 
 1. **Data** (`data.py`): merges the three datasets into one binary task (`0 = safe`, `1 = injection`), removes duplicates, and drops any test example that also appears in training, so there is no leakage.
 2. **Baseline** (`baseline.py`): TF-IDF (1–2 grams) + logistic regression. It sets the bar a neural model has to clear.
-3. **Fine-tuning** (`train.py`): ModernBERT-base with a classification head. 3 epochs, lr 3e-5, effective batch 16, max 512 tokens, bf16. 10% of training data is held out for validation, and the checkpoint with the best validation F1 is kept.
+3. **Fine-tuning** (`train.py`): ModernBERT-base with a classification head. 3 epochs, lr 3e-5, effective batch 16 (8 × 2 gradient accumulation), max 512 tokens, bf16 where the GPU supports it (fp16 otherwise). 10% of training data is held out for validation, and the checkpoint with the best validation F1 is kept. Any other Hugging Face model can be passed as an argument: `python train.py <model-name>`.
 
 Training takes ~30 min on an RTX 4050 Laptop GPU (6 GB VRAM).
 
@@ -51,7 +51,7 @@ pip install -r requirements.txt
 
 python data.py       # download + merge datasets -> data/
 python baseline.py   # TF-IDF baseline
-python train.py      # fine-tune ModernBERT -> model/
+python train.py      # fine-tune ModernBERT -> model/ (prints the test report at the end)
 ```
 
 Use the Trained Model:
